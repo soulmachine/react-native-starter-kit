@@ -4,11 +4,11 @@ All starter kits in this tutorial use ES6 by default.
 
 Table of Contents
 -----------------
-1. [Step1: create-an-empty-project](#1-step1-create-an-empty-project)
+1. [Step1: Create an Empty Project](#1-step1-create-an-empty-project)
 1. [Step2: Step1 + MobX](#2-step2-step1--mobx)
 
 
-# 1 Step1: Create an empty project
+# 1 Step1: Create an Empty Project
 
 First install all dependencies according to the official document, [Getting Started](https://facebook.github.io/react-native/docs/getting-started.html)
 
