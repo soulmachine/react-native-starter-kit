@@ -1,6 +1,5 @@
 // @flow
-import { observer } from 'mobx-react/native';
-
+import { observer, inject } from 'mobx-react/native';
 import React, { Component, PropTypes } from 'react';
 import {
   StyleSheet,
@@ -28,28 +27,28 @@ const styles = StyleSheet.create({
   }
 });
 
-function Counter(props) {
+function Counter({ counter }) {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Mobx Counter</Text>
-      <TouchableHighlight onPress={() => props.store.increment()}>
+      <TouchableHighlight onPress={() => counter.increment()}>
         <Text style={styles.text}>|   +   | </Text>
       </TouchableHighlight>
 
-      <Text style={styles.text}>Clicked: {props.store.counter} times</Text>
+      <Text style={styles.text}>Clicked: { counter.counter} times</Text>
 
-      <TouchableHighlight onPress={() => props.store.decrement()}>
+      <TouchableHighlight onPress={() => counter.decrement()}>
         <Text style={styles.text}>|   -   | </Text>
       </TouchableHighlight>
 
-      <TouchableHighlight onPress={() => props.store.incrementAsync()}>
+      <TouchableHighlight onPress={() => counter.incrementAsync()}>
         <Text style={styles.text}>|   + Async   | </Text>
       </TouchableHighlight>
     </View>
   );
 }
 Counter.propTypes = {
-  store: PropTypes.object.isRequired
+  counter: PropTypes.object.isRequired
 };
 
-export default observer(Counter);
+export default inject("counter")(observer(Counter));

@@ -2,7 +2,7 @@
 import {observable, action, useStrict} from 'mobx'
 useStrict(true)
 
-class CounterStore {
+export default class CounterStore {
   @observable counter = 0;
 
   @action increment() {
@@ -19,5 +19,3 @@ class CounterStore {
     }, 1000);
   }
 }
-
-export default new CounterStore();

@@ -2,12 +2,15 @@
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
 import Counter from './app/components/Counter';
-import counterStore from './app/store/counter';
+import rootStore from './app/store/index';
+import { Provider } from 'mobx-react/native';
 
 export default class Step2 extends Component {
   render() {
     return (
-      <Counter store={counterStore}/>
+      <Provider {...rootStore}>
+        <Counter />
+      </Provider>
     );
   }
 }

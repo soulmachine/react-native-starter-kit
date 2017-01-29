@@ -6,6 +6,7 @@ Table of Contents
 -----------------
 1. [Step1: Create an Empty Project](#1-step1-create-an-empty-project)
 1. [Step2: Step1 + MobX](#2-step2-step1--mobx)
+1. [Step3: Use Provider and Inject to Avoid Singleton](#3-user-provider-and-inject-to-avoid-singleton)
 
 
 # 1 Step1: Create an Empty Project
@@ -157,3 +158,30 @@ References:
 * [React Native + Mobx List App - Github](https://github.com/dabit3/react-native-mobx-list-app)
 * [React Native with MobX — Getting Started](https://medium.com/react-native-training/react-native-with-mobx-getting-started-ba7e18d8ff44#.hkfdy2fgl)
 * [mobx-react-native-counter](https://github.com/bartonhammond/mobx-react-native-counter)
+
+
+# 3 Step3: Use Provider and Inject to Avoid Singleton
+
+In previous section we created a singleton using `export default new CounterStore();`, and import it where needed. If the number of stores grows, it would become clumpsy, the author of MobX recommends using `Provider`, see <https://github.com/mobxjs/mobx/issues/300>.
+
+In `app/store/counter.js` exports a class instead of an instance, and create a root store in `src/store/index.js`,
+
+```javascript
+import CounterStore from './counter';
+
+// root store
+const rootStore = {
+  "counter": new CounterStore()
+};
+export default rootStore;
+```
+
+Only inject the store that is needed by a component, for example, inject the `counter` store to the `Counter` component,
+
+```javascript
+export default inject("counter")(observer(Counter));
+```
+
+Use `Provider` in the root component, in this case it is the `Step2` component in `index.ios.js` and `index.android.js`.
+
+See [this commit]() for details.
