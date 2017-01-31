@@ -7,6 +7,7 @@ Table of Contents
 1. [Step1: Create an Empty Project](#1-step1-create-an-empty-project)
 1. [Step2: Step1 + MobX](#2-step2-step1--mobx)
 1. [Step3: Use Provider and Inject to Avoid Singleton](#3-step3-use-provider-and-inject-to-avoid-singleton)
+1. [Step4: Step3 + Bottom Tab Bar](#4-step4-step3--bottom-tab-bar)
 
 
 # 1 Step1: Create an Empty Project
@@ -189,3 +190,110 @@ See [this commit](https://github.com/soulmachine/react-native-starter-kit/commit
 References:
 
 * [How to use Provider and inject in MobX](https://gist.github.com/sonaye/8756d1077942b0144767d3de0ded9b16)
+
+
+# 4 Step4: Step3 + Bottom Tab Bar
+
+Make sure you are using react-native version 0.37.0 and react 15.3.2, to achive this you just need to init the project with the following:
+
+    react-native init Step4 --version react-native@0.38.0
+
+We will use [react-native-navigation](https://github.com/wix/react-native-navigation) to implement the bottom tab bar.
+
+    npm install react-native-navigation@next --save
+
+And then run `react-native link` to link your libraries that contain native code.
+
+Add the `RCTAnimation` library to this project:
+
+1. Open `ios/Step4.xcodeproj` with Xcode, in Project Navigator (left pane), right-click on the `Libraries` and select  `Add files to [project name]`. Add `./node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj.xcodeproj`.
+1. In Project Navigator (left pane), click on your project (top) and select the `Build Phases` tab (right pane). In the `Link Binary With Libraries` section add `libRTCAnimation.a`.
+
+
+Use this file [AppDelegate.m](https://github.com/wix/react-native-navigation/blob/master/example/ios/example/AppDelegate.m) to overwrite `ios/Step4/AppDelegate.m`.
+
+Change the file `android/app/src/main/java/com/step4/MainActivity.java` to the following:
+
+```java
+package com.step4;
+
+import com.reactnativenavigation.controllers.SplashActivity;
+
+public class MainActivity extends SplashActivity {
+
+}
+```
+
+And change `android/app/src/main/java/com/step4/MainApplication.java` to the following:
+
+```java
+package com.step4;
+
+import android.support.annotation.Nullable;
+
+import com.facebook.react.ReactPackage;
+import com.reactnativenavigation.NavigationApplication;
+
+import java.util.List;
+
+public class MainApplication extends NavigationApplication {
+    @Override
+    public boolean isDebug() {
+        return BuildConfig.DEBUG;
+    }
+
+    @Nullable
+    @Override
+    public List<ReactPackage> createAdditionalReactPackages() {
+        return null;
+    }
+}
+```
+
+Create a folder `app/screens` and put several screens here.
+
+Change `index.ios.js` and `index.android.js` to the following:
+
+```javascript
+// @flow
+import {Navigation} from 'react-native-navigation';
+
+// screen related book keeping
+import {registerScreens} from './app/screens/register_screens';
+registerScreens();
+
+const tabs = [
+  {
+    label: 'Home',
+    screen: 'Home', // this is a registered name for a screen
+    icon: require('./images/home.png'),
+    selectedIcon: require('./images/home_selected.png'),
+    title: 'Home'
+  },
+  {
+    label: 'Me',
+    screen: 'Me', // this is a registered name for a screen
+    icon: require('./images/profile.png'),
+    selectedIcon: require('./images/profile_selected.png'),
+    title: 'Me',
+    navigatorStyle: {
+      tabBarBackgroundColor: '#4dbce9',
+    }
+  }
+];
+
+// this will start our app
+Navigation.startTabBasedApp({
+  tabs: tabs,
+  appStyle: {
+    tabBarBackgroundColor: '#0f2362',
+    tabBarButtonColor: '#ffffff',
+    tabBarSelectedButtonColor: '#63d7cc'
+  }
+});
+```
+
+References:
+
+* [Usage](https://github.com/wix/react-native-navigation/wiki/Usage)
+* [example](https://github.com/wix/react-native-navigation/tree/master/example)
