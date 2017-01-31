@@ -194,6 +194,10 @@ References:
 
 # 4 Step4: Step3 + Bottom Tab Bar
 
+In this section we're going to add a tabbar at the bottom, see the demo:
+
+![](./Step4/images/step4-demo.gif)
+
 Make sure you are using react-native version 0.37.0 and react 15.3.2, to achive this you just need to init the project with the following:
 
     react-native init Step4 --version react-native@0.38.0
